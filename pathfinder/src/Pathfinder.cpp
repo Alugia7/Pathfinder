@@ -273,20 +273,21 @@ void Pathfinder::Populate() {
                 if (!isCanGo(neighborState) && (isOnGround(neighborState) || facingidx != 2)) {
                     continue; // obv, it's forbidden.
                 }
-                /*
+                
                 if (facingidx != 2 && facingidx != 3 && !isOnGround(neighborState)) {
                     continue; // you need to keep falling
                 }
+                
                 if (facingidx == 3 && !isOnGround(neighborState)) {
                     continue; // can not jump while floating in air.
                 }
-                    */
+                    
                 bool elligibleForTntPearl = request.settings.tntpearl && isOnGround(neighborState) && !isClip(neighborState)
                                                && facingidx != 2 && facingidx != 3 && neighborCoordinate.y % 2 == 0 && originalPearlType == PEARL_LAND_STATE_FLOOR_WALL
                                                && request.blockWorld.getBlock((int) floor(neighborCoordinate.x / 2.0), neighborCoordinate.y / 2, (int)floor(neighborCoordinate.z / 2.0)).id == 0;
 
-/*
-                if (!isClip(neighborState) && (!elligibleForTntPearl || (!request.settings.dungeonBreaker && !isDB(neighborState)))) {
+
+                if ((!request.settings.dungeonBreaker && !isDB(neighborState)) && (!isClip(neighborState) && (!elligibleForTntPearl))) {
                     continue; // can not go from non-clip to blocked.
                     //dungeonbreaker does not requie clip but it must be breakable by dungeonbreaker
                 } 
@@ -298,7 +299,7 @@ void Pathfinder::Populate() {
                 if (neighborState == COLLISION_STATE_STAIR && !request.settings.stonkdown) continue; //consider adding DB here
                 if (neighborCoordinate.y < minY - 5) continue;
                 if (neighborCoordinate.y >= maxY + 5) continue;
-*/
+
                 
                 float gScore = n.gScore;
                 if (!isClip(neighborState) && elligibleForTntPearl)
@@ -306,8 +307,9 @@ void Pathfinder::Populate() {
                 if (!isBlocked(neighborState) && isClip(neighborState)) {
                     // stonk entrance!!!
                     gScore += neighborState == COLLISION_STATE_ENDERCHEST ? 50 : 4; // don't enderchest unless it saves like 25 blocks
-                } else if (isBlocked(neighborState) && isClip(neighborState) && request.settings.dungeonBreaker){ //db can go anywhere lol
+                } else if (isClip(neighborState) && isDB(neighborState) && request.settings.dungeonBreaker){ //db can go anywhere lol
                     gScore += 4; //discourge stonking some
+                    if (facingidx == 2) gScore += 10; //discourage upward stocking even more
                 }
                  else if (facingidx == 3) {
                     gScore += 100;

@@ -25,7 +25,7 @@ int main(int argc, char **argv) {
     }
     std::string input = argv[1];
     std::string output = argv[2];
-    std::cout << "Processing: " << input << std::endl;
+    //std::cout << "Processing: " << input << std::endl;
 
     if (!std::filesystem::exists(input)) {
         std::cerr << "Input File not found: " << input << std::endl;
@@ -47,10 +47,10 @@ int main(int argc, char **argv) {
         exit(-1);
     }
 
-    std::cout << "ID: " << request.roomuuid << " NAME: " << request.roomname << std::endl;
-    std::cout << "PF ID: " << request.id << std::endl;
-    std::cout << "Target Cnt: "<< request.target.size() << " World Size: " << request.blockWorld.xLen * request.blockWorld.yLen * request.blockWorld.zLen << std::endl;
-    std::cout << "Etherwarp settings: " << request.settings.etherwarpRadius << " leeway " << request.settings.etherwarpLeeway << " offset "<<request.settings.etherwarpOffset << std::endl;
+    //std::cout << "ID: " << request.roomuuid << " NAME: " << request.roomname << std::endl;
+    //std::cout << "PF ID: " << request.id << std::endl;
+    //std::cout << "Target Cnt: "<< request.target.size() << " World Size: " << request.blockWorld.xLen * request.blockWorld.yLen * request.blockWorld.zLen << std::endl;
+    //std::cout << "Etherwarp settings: " << request.settings.etherwarpRadius << " leeway " << request.settings.etherwarpLeeway << " offset "<<request.settings.etherwarpOffset << std::endl;
 
 
     auto start = std::chrono::steady_clock::now();
@@ -58,7 +58,7 @@ int main(int argc, char **argv) {
     Pathfinder pathfinder(request);
     pathfinder.Populate();
 
-    std::cout << "Elapsed(ms)=" << since(start).count() << std::endl;
+    //std::cout << "Elapsed(ms)=" << since(start).count() << std::endl;
 
 
     long cnt = 0;
@@ -104,8 +104,8 @@ int main(int argc, char **argv) {
             }
         }
     }
-    std::cout << "Open Nodes: " << cnt << std::endl << std::endl;
-    std::cout << "Shadow cast called: " << pathfinder.shadowCaster.shadowCasts << "times" << std::endl;
+    //std::cout << "Open Nodes: " << cnt << std::endl << std::endl;
+    //std::cout << "Shadow cast called: " << pathfinder.shadowCaster.shadowCasts << "times" << std::endl;
 
     std::ofstream outfile_1(output, std::ios_base::binary);
     PathfindResult result;

@@ -23,4 +23,5 @@ bool isCanGo(CollisionState collisionState);
 bool isClip(CollisionState collisionState);
 bool isBlocked(CollisionState collisionState);
 bool isOnGround(CollisionState collisionState);
+bool isDB(CollisionState collisionState);
 #endif //PATHFINDER2_COLLISIONSTATE_H

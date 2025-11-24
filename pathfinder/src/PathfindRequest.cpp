@@ -74,10 +74,13 @@ void AlgorithmSettings::ReadAlgorithmSettings(std::istream& in) {
     stonkechest = rootCompound->at("stonkEChest").as<nbt::tag_byte>().get() != 0;
     stonkteleport = rootCompound->at("stonkTeleport").as<nbt::tag_byte>().get() != 0;
     etherwarp = rootCompound->at("routeEtherwarp").as<nbt::tag_byte>().get() != 0;
+    dungeonBreaker = rootCompound->at("dungeonBreaker").as<nbt::tag_byte>().get() != 0;
     maxStonkLen = rootCompound->at("maxStonk").as<nbt::tag_int>().get();
     etherwarpRadius = rootCompound->at("etherwarpRadius").as<nbt::tag_int>().get();
     etherwarpLeeway = rootCompound->at("etherwarpLeeway").as<nbt::tag_double>().get();
     etherwarpOffset = rootCompound->at("etherwarpOffset").as<nbt::tag_double>().get();
+
+    
 }
 
 void AlgorithmSettings::WriteAlgorithmSettings(std::ostream &ostream) {

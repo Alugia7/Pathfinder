@@ -91,7 +91,7 @@ void Pathfinder::Populate() {
         auto originNodeState = octNode.data;
         auto originalPearlType = octNode.pearl;
 
-
+        //teleport into logic
         if (isBlocked(originNodeState) && request.settings.stonkteleport
             && coord.x % 2 != 0 && coord.z % 2 != 0 && coord.y % 2 == 0) {
             Block b = request.blockWorld.getBlock((coord.x-1) / 2, coord.y / 2 - 1, (coord.z-1) / 2);
@@ -119,6 +119,7 @@ void Pathfinder::Populate() {
                 }
             }
         }
+        //etherwarp
         if (request.settings.etherwarp
             && (coord.x % 2) != 0 && (coord.z % 2) != 0 && coord.y % 2 == 0 && coord.y > 2) {
             Block b = request.blockWorld.getBlock((coord.x-1) / 2, coord.y / 2 - 1, (coord.z-1) / 2);
@@ -163,7 +164,7 @@ void Pathfinder::Populate() {
 //                }
             }
         }
-
+        //pearl
         if ((originalPearlType == PEARL_LAND_STATE_FLOOR ||originalPearlType == PEARL_LAND_STATE_CEILING) && request.settings.enderpearl && isBlocked(originNodeState)) {
             for (int facingidx = 0; facingidx < 6; facingidx++) {
                 if (facingidx == 2) continue;;
@@ -211,7 +212,7 @@ void Pathfinder::Populate() {
                 }
             }
         }
-
+        //more pearl
         if ((originalPearlType == PEARL_LAND_STATE_WALL) && request.settings.enderpearl && isBlocked(originNodeState) && isOnGround(originNodeState)) {
             for (int facingidx = 0; facingidx < 6; facingidx++) {
                 if (facingidx == 2) continue;
@@ -259,11 +260,10 @@ void Pathfinder::Populate() {
         }
 
 
-//        if (isCanGo(originNodeState)) {
+        //stonking logic
         if (isBlocked(originNodeState)) {
             // in wall
-//            bool ontop = request.octNodeWorld.getOctNode(coord.x, coord.y + 1, coord.z).data == COLLISION_STATE_ONGROUND;
-            for (int facingidx = 0; facingidx < 6; facingidx++) {
+            for (int facingidx = 0; facingidx < 6; facingidx++) { //check neighbors
                 Coordinate neighborCoordinate = {
                         coord.x + FACINGS[facingidx][0], coord.y + (facingidx == 3 ? 2 : 1) * FACINGS[facingidx][1], coord.z + FACINGS[facingidx][2]
                 };
@@ -279,38 +279,41 @@ void Pathfinder::Populate() {
                 if (facingidx == 3 && !isOnGround(neighborState)) {
                     continue; // can not jump while floating in air.
                 }
-//                    if (neighborState)
-
+                    
                 bool elligibleForTntPearl = request.settings.tntpearl && isOnGround(neighborState) && !isClip(neighborState)
                                                && facingidx != 2 && facingidx != 3 && neighborCoordinate.y % 2 == 0 && originalPearlType == PEARL_LAND_STATE_FLOOR_WALL
                                                && request.blockWorld.getBlock((int) floor(neighborCoordinate.x / 2.0), neighborCoordinate.y / 2, (int)floor(neighborCoordinate.z / 2.0)).id == 0;
 
-
-                if (!isClip(neighborState) && !elligibleForTntPearl) {
+/*
+                if (!isClip(neighborState) && (!elligibleForTntPearl || (!request.settings.dungeonBreaker && !isDB(neighborState)))) {
                     continue; // can not go from non-clip to blocked.
+                    //dungeonbreaker does not requie clip but it must be breakable by dungeonbreaker
                 }
 
                 if (isBlocked(neighborState) && n.stonkLen + (facingidx == 3 ? 2 : 1) > request.settings.maxStonkLen)
-                    continue;
+                    continue; //stonk path too long
                 if (neighborState == COLLISION_STATE_ENDERCHEST && !request.settings.stonkechest)
                     continue;
-                if (neighborState == COLLISION_STATE_STAIR && !request.settings.stonkdown) continue;
+                if (neighborState == COLLISION_STATE_STAIR && !request.settings.stonkdown) continue; //consider adding DB here
                 if (neighborCoordinate.y < minY - 5) continue;
                 if (neighborCoordinate.y >= maxY + 5) continue;
 
-
+                */
                 float gScore = n.gScore;
                 if (!isClip(neighborState) && elligibleForTntPearl)
                     gScore += 20; // tntpearl slow
                 if (!isBlocked(neighborState) && isClip(neighborState)) {
                     // stonk entrance!!!
-                    gScore += neighborState == COLLISION_STATE_ENDERCHEST ? 50 : 6; // don't enderchest unless it saves like 25 blocks
-                } else if (facingidx == 3) {
+                    gScore += neighborState == COLLISION_STATE_ENDERCHEST ? 50 : 4; // don't enderchest unless it saves like 25 blocks
+                } else if (isBlocked(neighborState) && isClip(neighborState) && request.settings.dungeonBreaker){ //db can go anywhere lol
+                    gScore += 4; //discourge stonking some
+                }
+                 else if (facingidx == 3) {
                     gScore += 100;
                 } else if (neighborCoordinate.x % 2 == 0 || neighborCoordinate.z % 2 == 0) {
-                    gScore += 3;// pls don't jump.
+                    gScore += 3; //higher penalty for jumping
                 } else {
-                    gScore += 2;
+                    gScore += 2; //walk 1 block penalty
                 }
 
                 if (gScore < neighbor->gScore) {

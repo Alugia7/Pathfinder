@@ -15,3 +15,6 @@ bool isBlocked(CollisionState collisionState) {
 bool isOnGround(CollisionState collisionState) {
     return collisionState == COLLISION_STATE_ONGROUND || collisionState == COLLISION_STATE_SUPERBOOMABLE_GROUND || collisionState == COLLISION_STATE_STAIR || collisionState == COLLISION_STATE_ENDERCHEST || collisionState == COLLISION_STATE_STONKING || collisionState == COLLISION_STATE_BLOCKED;
 }
+bool isDB(CollisionState collisionState) {
+    return collisionState <= COLLISION_STATE_STONKING;
+}

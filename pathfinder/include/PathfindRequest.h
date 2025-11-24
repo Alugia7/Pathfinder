@@ -19,6 +19,7 @@ public:
     bool stonkechest;
     bool stonkteleport;
     bool etherwarp;
+    bool dungeonBreaker;
     uint32_t maxStonkLen;
     int etherwarpRadius;
     float etherwarpLeeway;

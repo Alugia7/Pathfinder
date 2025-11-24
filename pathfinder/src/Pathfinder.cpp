@@ -284,7 +284,7 @@ void Pathfinder::Populate() {
                                                && facingidx != 2 && facingidx != 3 && neighborCoordinate.y % 2 == 0 && originalPearlType == PEARL_LAND_STATE_FLOOR_WALL
                                                && request.blockWorld.getBlock((int) floor(neighborCoordinate.x / 2.0), neighborCoordinate.y / 2, (int)floor(neighborCoordinate.z / 2.0)).id == 0;
 
-/*
+
                 if (!isClip(neighborState) && (!elligibleForTntPearl || (!request.settings.dungeonBreaker && !isDB(neighborState)))) {
                     continue; // can not go from non-clip to blocked.
                     //dungeonbreaker does not requie clip but it must be breakable by dungeonbreaker
@@ -298,7 +298,7 @@ void Pathfinder::Populate() {
                 if (neighborCoordinate.y < minY - 5) continue;
                 if (neighborCoordinate.y >= maxY + 5) continue;
 
-                */
+                
                 float gScore = n.gScore;
                 if (!isClip(neighborState) && elligibleForTntPearl)
                     gScore += 20; // tntpearl slow

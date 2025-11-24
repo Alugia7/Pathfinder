@@ -273,13 +273,13 @@ void Pathfinder::Populate() {
                 if (!isCanGo(neighborState) && (isOnGround(neighborState) || facingidx != 2)) {
                     continue; // obv, it's forbidden.
                 }
-                if (facingidx != 2 && facingidx != 3 && !isOnGround(neighborState)) {
+                /*if (facingidx != 2 && facingidx != 3 && !isOnGround(neighborState)) {
                     continue; // you need to keep falling
                 }
                 if (facingidx == 3 && !isOnGround(neighborState)) {
                     continue; // can not jump while floating in air.
                 }
-                    
+                    */
                 bool elligibleForTntPearl = request.settings.tntpearl && isOnGround(neighborState) && !isClip(neighborState)
                                                && facingidx != 2 && facingidx != 3 && neighborCoordinate.y % 2 == 0 && originalPearlType == PEARL_LAND_STATE_FLOOR_WALL
                                                && request.blockWorld.getBlock((int) floor(neighborCoordinate.x / 2.0), neighborCoordinate.y / 2, (int)floor(neighborCoordinate.z / 2.0)).id == 0;

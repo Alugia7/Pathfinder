@@ -10,7 +10,7 @@
 
 using namespace std;
 
-#ifdef PATHFINDER_USE_CUDA
+//#ifdef PATHFINDER_USE_CUDA
 #include <cuda_runtime.h>
 
 
@@ -24,10 +24,10 @@ inline void gpuAssert(cudaError_t code, const char *file, int line, bool abort=t
     }
 }
 
-#endif
+//#endif
 
 ShadowCaster::ShadowCaster(PathfindRequest &request): request(request) {
-#ifdef PATHFINDER_USE_CUDA
+//#ifdef PATHFINDER_USE_CUDA
     xLen = request.blockWorld.xLen;
     yLen = request.blockWorld.yLen;
     zLen = request.blockWorld.zLen;
@@ -84,7 +84,7 @@ ShadowCaster::ShadowCaster(PathfindRequest &request): request(request) {
 
     setupPotentialShadowcasts(this->cudaBlockMap, xLen, yLen, zLen, minY, maxY);
 
-#endif
+//#endif
 }
 int TRANSFORM_MATRICES[24][9] = {
         // rotated vers
@@ -280,7 +280,7 @@ void ShadowCaster::ShadowCast(int centerX, int centerY, int centerZ, int startZ,
 
 Coordinate coordinates[GPU_RETURN_SIZE];
 void ShadowCaster::RealShadowCast(const std::function <void (int, int, int)>& f, Coordinate start, int radius) {
-#ifdef PATHFINDER_USE_CUDA
+//#ifdef PATHFINDER_USE_CUDA
     shadowCasts++;
 
     int len = radius + radius + 6;
@@ -303,7 +303,7 @@ void ShadowCaster::RealShadowCast(const std::function <void (int, int, int)>& f,
     }
 //    std::cout << cnt << "umm" << std::endl;
 
-#else
+/*#else
     float offset = request.settings.etherwarpOffset;
     for (auto & i : TRANSFORM_MATRICES) {
         if (request.blockWorld.getBlock(start.x + 1 * i[0], start.y + 1 * i[3], start.z + 1 * i[6]).id == 0)
@@ -328,5 +328,5 @@ void ShadowCaster::RealShadowCast(const std::function <void (int, int, int)>& f,
                        i[6],i[7], i[8], f
             );
     }
-#endif
+//#endif*/
 }

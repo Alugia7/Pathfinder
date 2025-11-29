@@ -1,0 +1,1 @@
+/usr/bin/c++ -Wall CMakeFiles/zlibstream_test.dir/zlibstream_test.cpp.o -o zlibstream_test  ../libnbt++.a /usr/lib/x86_64-linux-gnu/libz.so libNbtTestData.a /usr/lib/x86_64-linux-gnu/libz.so 

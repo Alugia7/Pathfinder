@@ -1,0 +1,2 @@
+/usr/bin/ar qc libpathfinder.a CMakeFiles/pathfinder.dir/src/CollisionState.cpp.o CMakeFiles/pathfinder.dir/src/PathfindRequest.cpp.o CMakeFiles/pathfinder.dir/src/PathfindResult.cpp.o CMakeFiles/pathfinder.dir/src/Pathfinder.cpp.o CMakeFiles/pathfinder.dir/src/ShadowCaster.cpp.o CMakeFiles/pathfinder.dir/src/cuda/raycast.cu.o
+/usr/bin/ranlib libpathfinder.a

@@ -1,0 +1,1 @@
+/usr/bin/c++ -Wall CMakeFiles/format_test.dir/format_test.cpp.o -o format_test  ../libnbt++.a /usr/lib/x86_64-linux-gnu/libz.so 

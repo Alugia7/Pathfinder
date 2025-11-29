@@ -286,7 +286,6 @@ void Pathfinder::Populate() {
                                                && facingidx != 2 && facingidx != 3 && neighborCoordinate.y % 2 == 0 && originalPearlType == PEARL_LAND_STATE_FLOOR_WALL
                                                && request.blockWorld.getBlock((int) floor(neighborCoordinate.x / 2.0), neighborCoordinate.y / 2, (int)floor(neighborCoordinate.z / 2.0)).id == 0;
 
-
                 if ((!request.settings.dungeonBreaker && !isDB(neighborState)) && (!isClip(neighborState) && (!elligibleForTntPearl))) {
                     continue; // can not go from non-clip to blocked.
                     //dungeonbreaker does not requie clip but it must be breakable by dungeonbreaker
@@ -309,7 +308,7 @@ void Pathfinder::Populate() {
                     gScore += neighborState == COLLISION_STATE_ENDERCHEST ? 50 : 4; // don't enderchest unless it saves like 25 blocks
                 } else if (isClip(neighborState) && isDB(neighborState) && request.settings.dungeonBreaker){ //db can go anywhere lol
                     gScore += 4; //discourge stonking some
-                    if (facingidx == 2) gScore += 10; //discourage upward stocking even more
+                    if (facingidx == 3) gScore += 8; //discourage upward stocking even more. It is sometimes faster however.
                 }
                  else if (facingidx == 3) {
                     gScore += 100;
@@ -370,6 +369,7 @@ void Pathfinder::Populate() {
                                           (neighborState != COLLISION_STATE_SUPERBOOMABLE_AIR && neighborState != COLLISION_STATE_SUPERBOOMABLE_GROUND);
 
                 float gScore = n.gScore+ (superboomthingy ? 10 : isOnGround(neighborState) || facingidx == 2 ? 1 : 2 * (updist + 1));
+
                 if (gScore < neighbor->gScore) {
                     neighbor->parent = coord;
                     if (isBlocked(neighborState))

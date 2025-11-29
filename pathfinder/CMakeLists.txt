@@ -1,5 +1,15 @@
-option(PATHFINDER_CUDA "pathfinder: use CUDA optimizations" OFF)
+option(PATHFINDER_CUDA "pathfinder: use CUDA optimizations" ON)
 
+if(PATHFINDER_CUDA)
+    enable_language(CUDA)
+
+    if(NOT DEFINED CMAKE_CUDA_ARCHITECTURES OR CMAKE_CUDA_ARCHITECTURES STREQUAL "")
+        # Explicitly set architectures you want to support
+        set(CMAKE_CUDA_ARCHITECTURES 52 61 70 CACHE STRING "CUDA architectures" FORCE)
+    endif()
+
+    cmake_policy(SET CMP0104 NEW)  # suppress empty architecture warning
+endif()
 
 if (PATHFINDER_CUDA)
     cmake_minimum_required(VERSION 3.18)  # for CMAKE_CUDA_ARCHITECTURES
@@ -37,6 +47,8 @@ endif()
 file(GLOB SOURCES "src/*.cpp")
 #file(GLOB SOURCES "src/*.h")
 file(GLOB HEADERS "include/*.h")
+file(GLOB SOURCES_CUDA "src/cuda/*.cu")
+file(GLOB HEADERS_CUDA "src/cuda/*.h")
 
 
 add_library(pathfinder
